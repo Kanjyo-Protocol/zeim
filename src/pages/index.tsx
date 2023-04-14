@@ -192,7 +192,7 @@ export default function Home() {
                         </HStack>
                       </Td>
                       <Td>
-                        <Receiver address={nft.to} />
+                        <Receiver address={nft.to || ''} />
                       </Td>
                       <Td>
                         {nft.nftTransfer && nft.nftTransfer && (

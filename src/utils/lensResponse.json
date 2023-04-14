@@ -2,8 +2,8 @@
   "data": {
     "defaultProfile": {
       "id": "0x0d",
-      "name": "Yoginth",
-      "bio": "engineering at @aaveaave.lens 👻 and @lensprotocol 🌿 // creator of @lenster.lens 🌸 // fighting for human privacy 🛡️ // opinions are mine // 🌈",
+      "name": "unknown",
+      "bio": "👻 No Lens Profile Found",
       "isDefault": true,
       "attributes": [
         {
@@ -42,13 +42,13 @@
       "handle": "yoginth.lens",
       "picture": {
         "original": {
-          "url": "ipfs://bafybeibzzi2rfxlswibx7jqqahqmzurhnp643ytquvp4llys3urbdfttjq",
+          "url": "ipfs://bafkreice45jmlvhctbt2nsygitnt3jphbahcq5hlx7vrlav63hmjacb5ea",
           "mimeType": null
         }
       },
       "onChainIdentity": {
         "ens": {
-          "name": "yoginth.eth"
+          "name": "no ens"
         },
         "proofOfHumanity": true,
         "sybilDotOrg": {
@@ -60,7 +60,7 @@
           }
         },
         "worldcoin": {
-          "isHuman": true
+          "isHuman": false
         }
       }
     }
