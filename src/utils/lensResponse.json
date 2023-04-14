@@ -1,0 +1,68 @@
+{
+  "data": {
+    "defaultProfile": {
+      "id": "0x0d",
+      "name": "Yoginth",
+      "bio": "engineering at @aaveaave.lens 👻 and @lensprotocol 🌿 // creator of @lenster.lens 🌸 // fighting for human privacy 🛡️ // opinions are mine // 🌈",
+      "isDefault": true,
+      "attributes": [
+        {
+          "displayType": null,
+          "traitType": null,
+          "key": "location",
+          "value": "India"
+        },
+        {
+          "displayType": null,
+          "traitType": null,
+          "key": "website",
+          "value": "https://nf.td/yogi"
+        },
+        {
+          "displayType": null,
+          "traitType": null,
+          "key": "twitter",
+          "value": "yogicodes"
+        },
+        {
+          "displayType": null,
+          "traitType": null,
+          "key": "hasPrideLogo",
+          "value": "true"
+        },
+        {
+          "displayType": null,
+          "traitType": null,
+          "key": "app",
+          "value": "Lenster"
+        }
+      ],
+      "followNftAddress": "0x540CA34e166a134Dd649385679F3FE4447E0Ae33",
+      "metadata": "https://arweave.net/5wQJYa6KdPkAnKL938eFyMZQsvIJoUplOiNguwJv9XQ",
+      "handle": "yoginth.lens",
+      "picture": {
+        "original": {
+          "url": "ipfs://bafybeibzzi2rfxlswibx7jqqahqmzurhnp643ytquvp4llys3urbdfttjq",
+          "mimeType": null
+        }
+      },
+      "onChainIdentity": {
+        "ens": {
+          "name": "yoginth.eth"
+        },
+        "proofOfHumanity": true,
+        "sybilDotOrg": {
+          "verified": true,
+          "source": {
+            "twitter": {
+              "handle": "yogicodes"
+            }
+          }
+        },
+        "worldcoin": {
+          "isHuman": true
+        }
+      }
+    }
+  }
+}
