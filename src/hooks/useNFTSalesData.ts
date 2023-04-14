@@ -54,8 +54,8 @@ export const useNFTSalesData = (addresses?: string[]) => {
 
       return {
         txnDate: txn.blockTimestamp,
-        category: 'income',
-        purpose: 'royalties',
+        category: "Income",
+        purpose: "Royalties",
         comment: undefined,
         nftTransfer: `transfer of TokenID: ${txn.nfts[0].tokenId} from: ${txn.from.identity} - to: ${txn.to.identity} with ${txn.paymentAmountInNativeToken} Ether(${txn.paymentAmountInUSDC})`,
         payer: txn.dappName,
