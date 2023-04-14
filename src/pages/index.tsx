@@ -53,7 +53,14 @@ export default function Home() {
   const [editableData, setEditableData] = useState<DisplayDataType[]>()
 
   useEffect(() => {
-    setEditableData(mergedData)
+    if (mergedData) {
+      setEditableData(
+        mergedData.sort(
+          (a, b) =>
+            new Date(b.txnDate).getTime() - new Date(a.txnDate).getTime()
+        )
+      )
+    }
   }, [mergedData])
 
   const csvData = useCreateCSVData(editableData)
