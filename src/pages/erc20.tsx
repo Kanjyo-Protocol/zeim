@@ -28,6 +28,7 @@ import {
 } from '@/graphQL/TokensTransferQuery'
 import { useQuery } from '@apollo/client'
 import { CSVLink } from 'react-csv'
+import { Receiver } from '@/components/Receiver'
 
 const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
@@ -140,8 +141,14 @@ export default function Home() {
                         <Td>{date.toLocaleDateString('en-US')}</Td>
                         <Td>category</Td>
                         <Td>{transfer.formattedAmount}</Td>
-                        <Td>{transfer.from.addresses[0].slice(0, 6)}</Td>
-                        <Td>{transfer.to.addresses[0].slice(0, 6)}</Td>
+                        <Td>
+                          <Receiver
+                            address={transfer.from.addresses[0] || ''}
+                          />
+                        </Td>
+                        <Td>
+                          <Receiver address={transfer.to.addresses[0] || ''} />
+                        </Td>
                         <Td>
                           {transfer.token.contractMetaData.image && (
                             <Image
