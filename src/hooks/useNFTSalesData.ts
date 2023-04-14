@@ -23,13 +23,14 @@ export const useNFTSalesData = (addresses?: string[]) => {
       console.log('wow', txn.transactionHash, txn.royalties)
       return {
         txnDate: txn.blockTimestamp,
-        category: 'income',
-        purpose: 'royalties',
+        category: 'Income',
+        purpose: 'Royalties',
         comment: undefined,
         nftTransfer: {
           from: txn.from.identity,
           to: txn.to.identity,
           amount: txn.formattedPaymentAmountInNativeToken,
+          amountUSDC: txn.formattedPaymentAmountInUSDC,
           payment: txn.paymentToken.symbol,
           nft: {
             tokenId: txn.nfts[0].tokenId,
@@ -75,10 +76,17 @@ export const useNFTSalesData = (addresses?: string[]) => {
   }, [data])
 
   console.log('nft', formatedRoylaityData)
+  const memoData = useMemo(() => {
+    return {
+      csvData: formatedRoylaityData?.csvData,
+      data: formatedRoylaityData?.data
+    }
+  }, [formatedRoylaityData])
+
   return {
     loading,
     error,
-    csvData: formatedRoylaityData?.csvData,
-    data: formatedRoylaityData?.data
+    csvData: memoData?.csvData,
+    data: memoData?.data
   }
 }
