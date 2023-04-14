@@ -26,10 +26,10 @@ export interface TokenTransfer {
 }
 
 export const TokenTransferQuery = gql`
-  query GetTokenTransfers($walletAddress: [Identity!]) {
+  query GetTokenTransfers($targetAddress: [Identity!]) {
     TokenTransfers(
       input: {
-        filter: { from: { _in: $walletAddress } }
+        filter: { from: { _in: $targetAddress } }
         blockchain: ethereum
         limit: 10
         order: { blockTimestamp: DESC }
