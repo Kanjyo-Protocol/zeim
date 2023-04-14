@@ -15,6 +15,7 @@
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@lens-protocol/client": "^1.0.1",
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-csv": "^1.1.3",
