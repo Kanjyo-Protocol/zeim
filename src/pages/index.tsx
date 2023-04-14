@@ -136,7 +136,7 @@ export default function Home() {
                 <Th>From</Th>
                 <Th>To</Th>
                 <Th>NFT Transfer</Th>
-                <Th>Comment</Th>
+                <Th textAlign={'center'}>Comment</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -158,7 +158,9 @@ export default function Home() {
                       <Td>
                         <Editable
                           defaultValue={nft.purpose}
-                          onSubmit={(value) => handleOnSubmitEditable(i, { purpose: value })}
+                          onSubmit={(value) =>
+                            handleOnSubmitEditable(i, { purpose: value })
+                          }
                         >
                           <EditablePreview />
                           <EditableInput />
@@ -230,12 +232,15 @@ export default function Home() {
                       <Td>
                         <Editable
                           defaultValue={nft.comment || '--'}
-                          onSubmit={(value) => handleOnSubmitEditable(i, { comment: value })}
+                          onSubmit={(value) =>
+                            handleOnSubmitEditable(i, { comment: value })
+                          }
+                          textAlign={'center'}
                         >
-                          <EditablePreview />
-                          <EditableTextarea />
+                          <EditablePreview width={300} />
+                          <EditableTextarea width={300} />
                         </Editable>
-                        </Td>
+                      </Td>
                     </Tr>
                   )
                 })}
