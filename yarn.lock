@@ -212,7 +212,7 @@
   resolved "https://registry.yarnpkg.com/@chakra-ui/dom-utils/-/dom-utils-2.0.6.tgz#68f49f3b4a0bdebd5e416d6fd2c012c9ad64b76a"
   integrity sha512-PVtDkPrDD5b8aoL6Atg7SLjkwhWb7BwMcLOF1L449L3nZN+DAO3nyAh6iUhZVJyunELj9d0r65CDlnMREyJZmA==
 
-"@chakra-ui/editable@2.0.21":
+"@chakra-ui/editable@2.0.21", "@chakra-ui/editable@^2.0.21":
   version "2.0.21"
   resolved "https://registry.yarnpkg.com/@chakra-ui/editable/-/editable-2.0.21.tgz#bc74510470d6d455844438e540851896d3879132"
   integrity sha512-oYuXbHnggxSYJN7P9Pn0Scs9tPC91no4z1y58Oe+ILoJKZ+bFAEHtL7FEISDNJxw++MEukeFu7GU1hVqmdLsKQ==

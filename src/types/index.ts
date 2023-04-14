@@ -7,6 +7,7 @@ export interface DisplayDataType {
     from: string,
     to: string,
     amount: number,
+    amountUSDC: number,
     payment: string,
     nft: {
       tokenId: string,

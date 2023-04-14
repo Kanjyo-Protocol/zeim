@@ -21,21 +21,34 @@ import {
   Wrap,
   Table,
   Input,
+  Editable,
+  EditablePreview,
+  EditableInput,
+  EditableTextarea,
 } from '@chakra-ui/react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
 import { useNFTSalesData } from '@/hooks/useNFTSalesData'
 import { headers } from '@/utils/csvHeader'
 import { ArrowForwardIcon, DownloadIcon } from '@chakra-ui/icons'
 import { Layout } from '@/components/Layout'
+import { DisplayDataType } from '@/types'
+import { useCreateCSVData } from '@/hooks/useCreateCSVData'
 
 export default function Home() {
   const [addresses, setAddresses] = useState<string[]>()
   const [address, setAddress] = useState<string>()
   const targetAddress = useMemo(() => addresses, [addresses])
   const nftData = useNFTSalesData(targetAddress)
+  const [editableData, setEditableData] = useState<DisplayDataType[]>()
+  useEffect(() => {
+    if (nftData?.data) {
+      setEditableData(nftData.data)
+    }
+  }, [nftData.data])
 
-  console.log('value', address)
+  const csvData = useCreateCSVData(editableData)
+  console.log('value', editableData)
   const handleAddAddress = useCallback(() => {
     if (!address || address == '') {
       return
@@ -54,8 +67,21 @@ export default function Home() {
     setAddresses(addresses?.filter((_, i) => i != index))
   }
 
-  const csvData = nftData.csvData
-  console.log('nftData', nftData)
+  console.log('nftData', csvData)
+
+  const handleOnSubmitEditable = (i: number, val: any) => {
+    setEditableData((prev) => {
+      if (!prev) {
+        return
+      }
+      return prev.map((d, j) => {
+        if (j != i) {
+          return d
+        }
+        return { ...d, ...val }
+      })
+    })
+  }
 
   return (
     <Layout>
@@ -114,8 +140,8 @@ export default function Home() {
               </Tr>
             </Thead>
             <Tbody>
-              {nftData?.data &&
-                nftData.data.map((nft, i) => {
+              {editableData &&
+                editableData.map((nft, i) => {
                   const date = new Date(nft.txnDate)
                   return (
                     <Tr key={i}>
@@ -129,7 +155,15 @@ export default function Home() {
                           {nft.category}
                         </Tag>
                       </Td>
-                      <Td>{nft.purpose}</Td>
+                      <Td>
+                        <Editable
+                          defaultValue={nft.purpose}
+                          onSubmit={(value) => handleOnSubmitEditable(i, { purpose: value })}
+                        >
+                          <EditablePreview />
+                          <EditableInput />
+                        </Editable>
+                      </Td>
                       <Td>
                         <VStack alignItems='start'>
                           <Text fontWeight='700'>{nft.amount} ETH</Text>
@@ -193,7 +227,15 @@ export default function Home() {
                           </>
                         )}
                       </Td>
-                      <Td>{nft.comment}</Td>
+                      <Td>
+                        <Editable
+                          defaultValue={nft.comment || '--'}
+                          onSubmit={(value) => handleOnSubmitEditable(i, { comment: value })}
+                        >
+                          <EditablePreview />
+                          <EditableTextarea />
+                        </Editable>
+                        </Td>
                     </Tr>
                   )
                 })}
