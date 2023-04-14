@@ -44,16 +44,17 @@ export default function Home() {
   const nftData = useNFTSalesData(targetAddress)
   const tokenData = useTokenData(targetAddress)
 
-  console.log('aaaaaaaaaaaaaatoken', tokenData)
-  console.log('bbbbbbbbbbbbbbnft', nftData)
+  const mergedData = useMemo(
+    () =>
+      tokenData.data ? tokenData.data.concat(nftData.data || []) : nftData.data,
+    [nftData.data, tokenData.data]
+  )
 
   const [editableData, setEditableData] = useState<DisplayDataType[]>()
 
   useEffect(() => {
-    if (nftData?.data) {
-      setEditableData(nftData.data)
-    }
-  }, [nftData.data])
+    setEditableData(mergedData)
+  }, [mergedData])
 
   const csvData = useCreateCSVData(editableData)
 
@@ -183,22 +184,26 @@ export default function Home() {
                         </VStack>
                       </Td>
                       <Td>
-                        <HStack pr={4}>
-                          <Image
-                            src={
-                              nft.from == 'opensea'
-                                ? '/images/opensea.svg'
-                                : nft.from == 'blur'
-                                ? '/images/blur.jpg'
-                                : undefined
-                            }
-                            alt={nft.from}
-                            width={10}
-                            height={10}
-                            rounded={100}
-                          />
-                          <Text>{nft.from}</Text>
-                        </HStack>
+                        {nft.nftTransfer && nft.nftTransfer ? (
+                          <HStack pr={4}>
+                            <Image
+                              src={
+                                nft.from == 'opensea'
+                                  ? '/images/opensea.svg'
+                                  : nft.from == 'blur'
+                                  ? '/images/blur.jpg'
+                                  : undefined
+                              }
+                              alt={nft.from}
+                              width={10}
+                              height={10}
+                              rounded={100}
+                            />
+                            <Text>{nft.from}</Text>
+                          </HStack>
+                        ) : (
+                          <Receiver address={nft.from || ''} />
+                        )}
                       </Td>
                       <Td>
                         <Receiver address={nft.to || ''} />
