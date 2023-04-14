@@ -29,7 +29,6 @@ import {
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
 import { useNFTSalesData } from '@/hooks/useNFTSalesData'
-import { useTokenData } from '@/hooks/useTokenData'
 import { headers } from '@/utils/csvHeader'
 import { ArrowForwardIcon, DownloadIcon } from '@chakra-ui/icons'
 import { Layout } from '@/components/Layout'
@@ -42,13 +41,7 @@ export default function Home() {
   const [address, setAddress] = useState<string>()
   const targetAddress = useMemo(() => addresses, [addresses])
   const nftData = useNFTSalesData(targetAddress)
-  const tokenData = useTokenData(targetAddress)
-
-  console.log('aaaaaaaaaaaaaatoken', tokenData)
-  console.log('bbbbbbbbbbbbbbnft', nftData)
-
   const [editableData, setEditableData] = useState<DisplayDataType[]>()
-
   useEffect(() => {
     if (nftData?.data) {
       setEditableData(nftData.data)
@@ -56,9 +49,7 @@ export default function Home() {
   }, [nftData.data])
 
   const csvData = useCreateCSVData(editableData)
-
   console.log('value', editableData)
-
   const handleAddAddress = useCallback(() => {
     if (!address || address == '') {
       return
@@ -77,7 +68,7 @@ export default function Home() {
     setAddresses(addresses?.filter((_, i) => i != index))
   }
 
-  console.log('csData', csvData)
+  console.log('nftData', csvData)
 
   const handleOnSubmitEditable = (i: number, val: any) => {
     setEditableData((prev) => {

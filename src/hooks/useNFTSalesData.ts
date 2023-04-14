@@ -1,7 +1,7 @@
-import { NFTSaleTransactions, NFTSalesDataQuery } from "@/graphQL/NFTSalesQuery"
-import { CSVDataType, DisplayDataType } from "@/types"
-import { useQuery } from "@apollo/client"
-import { useMemo } from "react"
+import { NFTSaleTransactions, NFTSalesDataQuery } from '@/graphQL/NFTSalesQuery'
+import { CSVDataType, DisplayDataType } from '@/types'
+import { useQuery } from '@apollo/client'
+import { useMemo } from 'react'
 
 export const useNFTSalesData = (addresses?: string[]) => {
   const { loading, data, error } = useQuery(NFTSalesDataQuery, {
@@ -15,59 +15,63 @@ export const useNFTSalesData = (addresses?: string[]) => {
     }
 
     const typeData = data as NFTSaleTransactions
-    const royalties = typeData.NFTSaleTransactions.NFTSaleTransaction.map(txn => {
-      if (!txn.royalties) {
-        return
-      }
+    const royalties =
+      typeData.NFTSaleTransactions.NFTSaleTransaction &&
+      (typeData.NFTSaleTransactions.NFTSaleTransaction.map((txn) => {
+        if (!txn.royalties) {
+          return
+        }
 
-      console.log('wow', txn.transactionHash, txn.royalties)
-      return {
-        txnDate: txn.blockTimestamp,
-        category: 'Income',
-        purpose: 'Royalties',
-        comment: undefined,
-        nftTransfer: {
-          from: txn.from.identity,
-          to: txn.to.identity,
-          amount: txn.formattedPaymentAmountInNativeToken,
-          amountUSDC: txn.formattedPaymentAmountInUSDC,
-          payment: txn.paymentToken.symbol,
-          nft: {
-            tokenId: txn.nfts[0].tokenId,
-            image: txn.nfts[0].tokenNft?.metaData?.image,
-            name: txn.nfts[0].tokenNft?.metaData?.name
-          }
-        },
-        from: txn.dappName,
-        to: txn.royalties[0]?.beneficiaryAddress,
-        amount: txn.royalties[0]?.formattedAmountInNativeToken,
-        amountUSDC: txn.royalties[0]?.formattedAmountInUSDC,
-        tokenName: txn.paymentToken.symbol,
-        token: txn.paymentToken.address,
-        txHash: txn.transactionHash,
-      }
-    }).filter(x => x) as DisplayDataType[]
+        console.log('wow', txn.transactionHash, txn.royalties)
+        return {
+          txnDate: txn.blockTimestamp,
+          category: 'Income',
+          purpose: 'Royalties',
+          comment: undefined,
+          nftTransfer: {
+            from: txn.from.identity,
+            to: txn.to.identity,
+            amount: txn.formattedPaymentAmountInNativeToken,
+            amountUSDC: txn.formattedPaymentAmountInUSDC,
+            payment: txn.paymentToken.symbol,
+            nft: {
+              tokenId: txn.nfts[0].tokenId,
+              image: txn.nfts[0].tokenNft?.metaData?.image,
+              name: txn.nfts[0].tokenNft?.metaData?.name
+            }
+          },
+          from: txn.dappName,
+          to: txn.royalties[0]?.beneficiaryAddress,
+          amount: txn.royalties[0]?.formattedAmountInNativeToken,
+          amountUSDC: txn.royalties[0]?.formattedAmountInUSDC,
+          tokenName: txn.paymentToken.symbol,
+          token: txn.paymentToken.address,
+          txHash: txn.transactionHash
+        }
+      }).filter((x) => x) as DisplayDataType[])
 
-    const csvData = typeData.NFTSaleTransactions.NFTSaleTransaction.map(txn => {
-      if (!txn.royalties) {
-        return
-      }
+    const csvData =
+      typeData.NFTSaleTransactions.NFTSaleTransaction &&
+      (typeData.NFTSaleTransactions.NFTSaleTransaction.map((txn) => {
+        if (!txn.royalties) {
+          return
+        }
 
-      return {
-        txnDate: txn.blockTimestamp,
-        category: "Income",
-        purpose: "Royalties",
-        comment: undefined,
-        nftTransfer: `transfer of TokenID: ${txn.nfts[0].tokenId} from: ${txn.from.identity} - to: ${txn.to.identity} with ${txn.paymentAmountInNativeToken} Ether(${txn.paymentAmountInUSDC})`,
-        payer: txn.dappName,
-        recipient: txn.royalties[0]?.beneficiaryAddress,
-        amount: txn.royalties[0]?.formattedAmountInNativeToken,
-        amountUSDC: txn.royalties[0]?.formattedAmountInUSDC,
-        tokenName: txn.paymentToken.symbol,
-        token: txn.paymentToken.address,
-        txHash: txn.transactionHash,
-      }
-    }).filter(x => x) as CSVDataType[]
+        return {
+          txnDate: txn.blockTimestamp,
+          category: 'Income',
+          purpose: 'Royalties',
+          comment: undefined,
+          nftTransfer: `transfer of TokenID: ${txn.nfts[0].tokenId} from: ${txn.from.identity} - to: ${txn.to.identity} with ${txn.paymentAmountInNativeToken} Ether(${txn.paymentAmountInUSDC})`,
+          payer: txn.dappName,
+          recipient: txn.royalties[0]?.beneficiaryAddress,
+          amount: txn.royalties[0]?.formattedAmountInNativeToken,
+          amountUSDC: txn.royalties[0]?.formattedAmountInUSDC,
+          tokenName: txn.paymentToken.symbol,
+          token: txn.paymentToken.address,
+          txHash: txn.transactionHash
+        }
+      }).filter((x) => x) as CSVDataType[])
 
     return {
       csvData,

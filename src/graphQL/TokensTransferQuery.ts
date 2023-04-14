@@ -25,6 +25,12 @@ export interface TokenTransfer {
   transactionHash: string
 }
 
+export interface TokenTransfers {
+  TokenTransfers: {
+    TokenTransfer: TokenTransfer[]
+  }
+}
+
 export const TokenTransferQuery = gql`
   query GetTokenTransfers($targetAddress: [Identity!]) {
     TokenTransfers(
