@@ -24,7 +24,7 @@ import {
   Editable,
   EditablePreview,
   EditableInput,
-  EditableTextarea,
+  EditableTextarea
 } from '@chakra-ui/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
@@ -34,6 +34,7 @@ import { ArrowForwardIcon, DownloadIcon } from '@chakra-ui/icons'
 import { Layout } from '@/components/Layout'
 import { DisplayDataType } from '@/types'
 import { useCreateCSVData } from '@/hooks/useCreateCSVData'
+import { Receiver } from '@/components/Receiver'
 
 export default function Home() {
   const [addresses, setAddresses] = useState<string[]>()
@@ -190,7 +191,9 @@ export default function Home() {
                           <Text>{nft.from}</Text>
                         </HStack>
                       </Td>
-                      <Td>{nft.to}</Td>
+                      <Td>
+                        <Receiver address={nft.to} />
+                      </Td>
                       <Td>
                         {nft.nftTransfer && nft.nftTransfer && (
                           <>
