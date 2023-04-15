@@ -25,7 +25,9 @@ import {
   EditablePreview,
   EditableInput,
   EditableTextarea,
-  Tooltip
+  Tooltip,
+  Spinner,
+  Center
 } from '@chakra-ui/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
@@ -42,6 +44,7 @@ import { EditableText } from '@/components/EditableText'
 export default function Home() {
   const [addresses, setAddresses] = useState<string[]>()
   const [address, setAddress] = useState<string>()
+  const [loading, setLoading] = useState<boolean>(false)
   const targetAddress = useMemo(() => addresses, [addresses])
   const nftData = useNFTSalesData(targetAddress)
   const tokenData = useTokenData(targetAddress)
@@ -62,6 +65,7 @@ export default function Home() {
             new Date(b.txnDate).getTime() - new Date(a.txnDate).getTime()
         )
       )
+      setLoading(false)
     }
   }, [mergedData])
 
@@ -81,6 +85,7 @@ export default function Home() {
       return [address]
     })
     setAddress('')
+    setLoading(true)
   }, [address])
 
   const handleRemoveAddress = (index: number) => {
@@ -144,6 +149,18 @@ export default function Home() {
               Export CSV
             </Button>
           </Flex>
+        )}
+
+        {loading && (
+          <Center h='100px' color='white'>
+            <Spinner
+              thickness='4px'
+              speed='0.65s'
+              emptyColor='gray.200'
+              color='teal'
+              size='xl'
+            />
+          </Center>
         )}
         <TableContainer>
           <Table variant='simple' size='sm'>
