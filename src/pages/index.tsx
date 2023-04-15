@@ -176,7 +176,12 @@ export default function Home() {
                         </Tag>
                       </Td>
                       <Td>
-                        <EditableText index={i} defaultValue={record.purpose} handleOnSubmit={handleOnSubmitEditable} key='purpose'/>
+                        <EditableText
+                          index={i}
+                          defaultValue={record.purpose}
+                          handleOnSubmit={handleOnSubmitEditable}
+                          csvKey={'purpose'}
+                        />
                       </Td>
                       <Td isNumeric>
                         {record.nftTransfer && record.nftTransfer ? (

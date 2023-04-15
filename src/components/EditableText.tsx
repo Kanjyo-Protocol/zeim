@@ -3,15 +3,15 @@ import { useCallback, useEffect, useState } from 'react'
 
 type EditableText = {
   index: number
-  key: string
+  csvKey: string
   handleOnSubmit: (i: number, object: any) => void
   defaultValue?: string
 }
 export const EditableText: React.FC<EditableText> = ({
   index,
-  key,
+  csvKey,
   handleOnSubmit,
-  defaultValue,
+  defaultValue
 }) => {
   const [val, setVal] = useState<string | undefined>()
   useEffect(() => {
@@ -23,9 +23,9 @@ export const EditableText: React.FC<EditableText> = ({
   const handleOnSubmitEditable = useCallback(
     (value: string) => {
       setVal(value)
-      handleOnSubmit(index, { [key]: value })
+      handleOnSubmit(index, { [csvKey]: value })
     },
-    [handleOnSubmit, index, key]
+    [handleOnSubmit, index, csvKey]
   )
 
   return (
