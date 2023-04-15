@@ -24,7 +24,8 @@ import {
   Editable,
   EditablePreview,
   EditableInput,
-  EditableTextarea
+  EditableTextarea,
+  Tooltip
 } from '@chakra-ui/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
@@ -144,7 +145,7 @@ export default function Home() {
           </Flex>
         )}
         <TableContainer>
-          <Table variant='simple'>
+          <Table variant='simple' size='sm'>
             <Thead>
               <Tr>
                 <Th>Date</Th>
@@ -184,18 +185,41 @@ export default function Home() {
                           <EditableInput />
                         </Editable>
                       </Td>
-                      <Td>
+                      <Td isNumeric>
                         {record.nftTransfer && record.nftTransfer ? (
-                          <VStack alignItems='start'>
-                            <Text fontWeight='700'>{record.amount} ETH</Text>
-                            <Text color='gray.400'>
-                              {record.amountUSDC} USDC
-                            </Text>
+                          <VStack alignItems='end'>
+                            <Tooltip label={record.amount + 'ETH'}>
+                              <Text fontWeight='700'>
+                                {record.amount &&
+                                  (record.amount.toString().length < 6
+                                    ? record.amount
+                                    : record.amount.toFixed(6) + '...')}{' '}
+                                ETH
+                              </Text>
+                            </Tooltip>
+                            <Tooltip label={record.amountUSDC + 'USDC'}>
+                              <Text color='gray.400'>
+                                {record.amountUSDC &&
+                                  (record.amountUSDC.toString().length < 6
+                                    ? record.amountUSDC
+                                    : record.amountUSDC.toFixed(6) +
+                                      '...')}{' '}
+                                USDC
+                              </Text>
+                            </Tooltip>
                           </VStack>
                         ) : (
-                          <Text fontWeight='700'>
-                            {record.amount} {record.tokenName}
-                          </Text>
+                          <Tooltip
+                            label={record.amount + ' ' + record.tokenName}
+                          >
+                            <Text fontWeight='700'>
+                              {record.amount &&
+                                (record.amount.toString().length < 6
+                                  ? record.amount
+                                  : record.amount.toFixed(6) + '...')}{' '}
+                              {record.tokenName}
+                            </Text>
+                          </Tooltip>
                         )}
                       </Td>
                       <Td>

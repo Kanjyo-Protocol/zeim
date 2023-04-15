@@ -29,7 +29,7 @@ export const useTokenData = (addresses?: string[]) => {
         return {
           txnDate: txn.blockTimestamp,
           category: 'expense',
-          purpose: 'payment',
+          purpose: 'Payment',
           comment: undefined,
           nftTransfer: undefined,
           from: txn.from.addresses[0],

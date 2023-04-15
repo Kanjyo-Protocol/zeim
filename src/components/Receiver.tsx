@@ -52,7 +52,10 @@ export const Receiver: FC<Props> = ({ address }) => {
       <Image src={imageUrl} alt={name} width={16} height={16} rounded={8} />
       <VStack alignItems='start'>
         <Tooltip label={address}>
-          <Text>{address.slice(0, 6)}...</Text>
+          <Text>
+            {address.slice(0, 5)}...
+            {address.slice(-4)}
+          </Text>
         </Tooltip>
         <Tooltip label={bio}>
           <Text>
