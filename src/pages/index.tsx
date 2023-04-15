@@ -37,6 +37,7 @@ import { Layout } from '@/components/Layout'
 import { DisplayDataType } from '@/types'
 import { useCreateCSVData } from '@/hooks/useCreateCSVData'
 import { Receiver } from '@/components/Receiver'
+import { EditableText } from '@/components/EditableText'
 
 export default function Home() {
   const [addresses, setAddresses] = useState<string[]>()
@@ -175,15 +176,12 @@ export default function Home() {
                         </Tag>
                       </Td>
                       <Td>
-                        <Editable
+                        <EditableText
+                          index={i}
                           defaultValue={record.purpose}
-                          onSubmit={(value) =>
-                            handleOnSubmitEditable(i, { purpose: value })
-                          }
-                        >
-                          <EditablePreview />
-                          <EditableInput />
-                        </Editable>
+                          handleOnSubmit={handleOnSubmitEditable}
+                          csvKey={'purpose'}
+                        />
                       </Td>
                       <Td isNumeric>
                         {record.nftTransfer && record.nftTransfer ? (
