@@ -24,13 +24,11 @@ import {
   Editable,
   EditablePreview,
   EditableInput,
-  EditableTextarea,
-  Tooltip
+  EditableTextarea
 } from '@chakra-ui/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CSVLink } from 'react-csv'
 import { useNFTSalesData } from '@/hooks/useNFTSalesData'
-import { useTokenData } from '@/hooks/useTokenData'
 import { headers } from '@/utils/csvHeader'
 import { ArrowForwardIcon, DownloadIcon } from '@chakra-ui/icons'
 import { Layout } from '@/components/Layout'
@@ -43,31 +41,15 @@ export default function Home() {
   const [address, setAddress] = useState<string>()
   const targetAddress = useMemo(() => addresses, [addresses])
   const nftData = useNFTSalesData(targetAddress)
-  const tokenData = useTokenData(targetAddress)
-
-  const mergedData = useMemo(
-    () =>
-      tokenData.data ? tokenData.data.concat(nftData.data || []) : nftData.data,
-    [nftData.data, tokenData.data]
-  )
-
   const [editableData, setEditableData] = useState<DisplayDataType[]>()
-
   useEffect(() => {
-    if (mergedData) {
-      setEditableData(
-        mergedData.sort(
-          (a, b) =>
-            new Date(b.txnDate).getTime() - new Date(a.txnDate).getTime()
-        )
-      )
+    if (nftData?.data) {
+      setEditableData(nftData.data)
     }
-  }, [mergedData])
+  }, [nftData.data])
 
   const csvData = useCreateCSVData(editableData)
-
   console.log('value', editableData)
-
   const handleAddAddress = useCallback(() => {
     if (!address || address == '') {
       return
@@ -86,7 +68,7 @@ export default function Home() {
     setAddresses(addresses?.filter((_, i) => i != index))
   }
 
-  console.log('csData', csvData)
+  console.log('nftData', csvData)
 
   const handleOnSubmitEditable = (i: number, val: any) => {
     setEditableData((prev) => {
@@ -145,7 +127,7 @@ export default function Home() {
           </Flex>
         )}
         <TableContainer>
-          <Table variant='simple' size='sm'>
+          <Table variant='simple'>
             <Thead>
               <Tr>
                 <Th>Date</Th>
@@ -160,23 +142,23 @@ export default function Home() {
             </Thead>
             <Tbody>
               {editableData &&
-                editableData.map((record, i) => {
-                  const date = new Date(record.txnDate)
+                editableData.map((nft, i) => {
+                  const date = new Date(nft.txnDate)
                   return (
                     <Tr key={i}>
                       <Td>{date.toLocaleDateString('en-US')}</Td>
                       <Td>
                         <Tag
                           colorScheme={
-                            record.category == 'Income' ? 'teal' : 'purple'
+                            nft.category == 'Income' ? 'teal' : 'purple'
                           }
                         >
-                          {record.category}
+                          {nft.category}
                         </Tag>
                       </Td>
                       <Td>
                         <Editable
-                          defaultValue={record.purpose}
+                          defaultValue={nft.purpose}
                           onSubmit={(value) =>
                             handleOnSubmitEditable(i, { purpose: value })
                           }
@@ -185,78 +167,43 @@ export default function Home() {
                           <EditableInput />
                         </Editable>
                       </Td>
-                      <Td isNumeric>
-                        {record.nftTransfer && record.nftTransfer ? (
-                          <VStack alignItems='end'>
-                            <Tooltip label={record.amount + 'ETH'}>
-                              <Text fontWeight='700'>
-                                {record.amount &&
-                                  (record.amount.toString().length < 6
-                                    ? record.amount
-                                    : record.amount.toFixed(6) + '...')}{' '}
-                                ETH
-                              </Text>
-                            </Tooltip>
-                            <Tooltip label={record.amountUSDC + 'USDC'}>
-                              <Text color='gray.400'>
-                                {record.amountUSDC &&
-                                  (record.amountUSDC.toString().length < 6
-                                    ? record.amountUSDC
-                                    : record.amountUSDC.toFixed(6) +
-                                      '...')}{' '}
-                                USDC
-                              </Text>
-                            </Tooltip>
-                          </VStack>
-                        ) : (
-                          <Tooltip
-                            label={record.amount + ' ' + record.tokenName}
-                          >
-                            <Text fontWeight='700'>
-                              {record.amount &&
-                                (record.amount.toString().length < 6
-                                  ? record.amount
-                                  : record.amount.toFixed(6) + '...')}{' '}
-                              {record.tokenName}
-                            </Text>
-                          </Tooltip>
-                        )}
+                      <Td>
+                        <VStack alignItems='start'>
+                          <Text fontWeight='700'>{nft.amount} ETH</Text>
+                          <Text color='gray.400'>{nft.amountUSDC} USDC</Text>
+                        </VStack>
                       </Td>
                       <Td>
-                        {record.nftTransfer && record.nftTransfer ? (
-                          <HStack pr={4}>
-                            <Image
-                              src={
-                                record.from == 'opensea'
-                                  ? '/images/opensea.svg'
-                                  : record.from == 'blur'
-                                  ? '/images/blur.jpg'
-                                  : undefined
-                              }
-                              alt={record.from}
-                              width={10}
-                              height={10}
-                              rounded={100}
-                            />
-                            <Text>{record.from}</Text>
-                          </HStack>
-                        ) : (
-                          <Receiver address={record.from || ''} />
-                        )}
+                        <HStack pr={4}>
+                          <Image
+                            src={
+                              nft.from == 'opensea'
+                                ? '/images/opensea.svg'
+                                : nft.from == 'blur'
+                                ? '/images/blur.jpg'
+                                : undefined
+                            }
+                            alt={nft.from}
+                            width={10}
+                            height={10}
+                            rounded={100}
+                          />
+                          <Text>{nft.from}</Text>
+                        </HStack>
                       </Td>
                       <Td>
-                        <Receiver address={record.to || ''} />
+                        <Receiver address={nft.to || ''} />
                       </Td>
                       <Td>
-                        {record.nftTransfer && record.nftTransfer && (
+                        {nft.nftTransfer && nft.nftTransfer && (
                           <>
                             <HStack>
                               <Image
-                                src={record.nftTransfer.nft.image?.replace(
+                                src={nft.nftTransfer.nft.image?.replace(
                                   'ipfs://',
                                   'https://ipfs.io/ipfs/'
                                 )}
-                                alt={record.nftTransfer.nft.name}
+                                alt={nft.nftTransfer.nft.name}
                                 width={16}
                                 height={16}
                                 rounded={8}
@@ -266,18 +213,18 @@ export default function Home() {
                                   <Text fontSize='sm' color='gray.400'>
                                     Token ID
                                   </Text>
-                                  <Text>{record.nftTransfer.nft.tokenId}</Text>
+                                  <Text>{nft.nftTransfer.nft.tokenId}</Text>
                                 </HStack>
                                 <Spacer />
                                 <HStack>
                                   <Tag fontSize='xs' colorScheme='gray'>
-                                    {record.nftTransfer.from.slice(0, 5)}...
-                                    {record.nftTransfer.from.slice(-4)}
+                                    {nft.nftTransfer.from.slice(0, 5)}...
+                                    {nft.nftTransfer.from.slice(-4)}
                                   </Tag>
                                   <ArrowForwardIcon color='gray.400' />
                                   <Tag fontSize='xs' colorScheme='gray'>
-                                    {record.nftTransfer.to.slice(0, 5)}...
-                                    {record.nftTransfer.to.slice(-4)}
+                                    {nft.nftTransfer.to.slice(0, 5)}...
+                                    {nft.nftTransfer.to.slice(-4)}
                                   </Tag>
                                 </HStack>
                               </VStack>
@@ -287,14 +234,14 @@ export default function Home() {
                       </Td>
                       <Td>
                         <Editable
-                          defaultValue={record.comment || '--'}
+                          defaultValue={nft.comment || '--'}
                           onSubmit={(value) =>
                             handleOnSubmitEditable(i, { comment: value })
                           }
                           textAlign={'center'}
                         >
-                          <EditablePreview />
-                          <EditableTextarea />
+                          <EditablePreview width={300} />
+                          <EditableTextarea width={300} />
                         </Editable>
                       </Td>
                     </Tr>

@@ -4,37 +4,37 @@ export interface DisplayDataType {
   purpose: string
   comment: string | undefined
   nftTransfer?: {
-    from: string,
-    to: string,
-    amount: number,
-    amountUSDC: number,
-    payment: string,
+    from: string
+    to: string
+    amount: number
+    amountUSDC: number
+    payment: string
     nft: {
-      tokenId: string,
-      image: string,
+      tokenId: string
+      image: string
       name: string
     }
-  },
-  from: string,
-  to: string | undefined,
-  amount: number | undefined,
-  amountUSDC: number | undefined,
-  tokenName: string,
-  token: string,
-  txHash: string,
+  }
+  from: string
+  to: string | undefined
+  amount: number | undefined
+  amountUSDC: number | undefined
+  tokenName: string
+  token: string
+  txHash: string
 }
 
 export interface CSVDataType {
-  txnDate: string,
-  category: string,
-  purpose: string,
-  comment: string | undefined,
-  nftTransfer?: string,
-  from: string,
-  payer: string,
+  txnDate: string
+  category: string
+  purpose: string
+  comment: string | undefined
+  nftTransfer?: string
+  from: string
+  payer: string
   recipient: string
   amount: number
-  amountUSDC: number
+  amountUSDC?: number
   tokenName: string
   token: string
   txHash: string
