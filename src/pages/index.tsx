@@ -159,23 +159,23 @@ export default function Home() {
             </Thead>
             <Tbody>
               {editableData &&
-                editableData.map((nft, i) => {
-                  const date = new Date(nft.txnDate)
+                editableData.map((record, i) => {
+                  const date = new Date(record.txnDate)
                   return (
                     <Tr key={i}>
                       <Td>{date.toLocaleDateString('en-US')}</Td>
                       <Td>
                         <Tag
                           colorScheme={
-                            nft.category == 'Income' ? 'teal' : 'purple'
+                            record.category == 'Income' ? 'teal' : 'purple'
                           }
                         >
-                          {nft.category}
+                          {record.category}
                         </Tag>
                       </Td>
                       <Td>
                         <Editable
-                          defaultValue={nft.purpose}
+                          defaultValue={record.purpose}
                           onSubmit={(value) =>
                             handleOnSubmitEditable(i, { purpose: value })
                           }
@@ -185,46 +185,54 @@ export default function Home() {
                         </Editable>
                       </Td>
                       <Td>
-                        <VStack alignItems='start'>
-                          <Text fontWeight='700'>{nft.amount} ETH</Text>
-                          <Text color='gray.400'>{nft.amountUSDC} USDC</Text>
-                        </VStack>
+                        {record.nftTransfer && record.nftTransfer ? (
+                          <VStack alignItems='start'>
+                            <Text fontWeight='700'>{record.amount} ETH</Text>
+                            <Text color='gray.400'>
+                              {record.amountUSDC} USDC
+                            </Text>
+                          </VStack>
+                        ) : (
+                          <Text fontWeight='700'>
+                            {record.amount} {record.tokenName}
+                          </Text>
+                        )}
                       </Td>
                       <Td>
-                        {nft.nftTransfer && nft.nftTransfer ? (
+                        {record.nftTransfer && record.nftTransfer ? (
                           <HStack pr={4}>
                             <Image
                               src={
-                                nft.from == 'opensea'
+                                record.from == 'opensea'
                                   ? '/images/opensea.svg'
-                                  : nft.from == 'blur'
+                                  : record.from == 'blur'
                                   ? '/images/blur.jpg'
                                   : undefined
                               }
-                              alt={nft.from}
+                              alt={record.from}
                               width={10}
                               height={10}
                               rounded={100}
                             />
-                            <Text>{nft.from}</Text>
+                            <Text>{record.from}</Text>
                           </HStack>
                         ) : (
-                          <Receiver address={nft.from || ''} />
+                          <Receiver address={record.from || ''} />
                         )}
                       </Td>
                       <Td>
-                        <Receiver address={nft.to || ''} />
+                        <Receiver address={record.to || ''} />
                       </Td>
                       <Td>
-                        {nft.nftTransfer && nft.nftTransfer && (
+                        {record.nftTransfer && record.nftTransfer && (
                           <>
                             <HStack>
                               <Image
-                                src={nft.nftTransfer.nft.image?.replace(
+                                src={record.nftTransfer.nft.image?.replace(
                                   'ipfs://',
                                   'https://ipfs.io/ipfs/'
                                 )}
-                                alt={nft.nftTransfer.nft.name}
+                                alt={record.nftTransfer.nft.name}
                                 width={16}
                                 height={16}
                                 rounded={8}
@@ -234,18 +242,18 @@ export default function Home() {
                                   <Text fontSize='sm' color='gray.400'>
                                     Token ID
                                   </Text>
-                                  <Text>{nft.nftTransfer.nft.tokenId}</Text>
+                                  <Text>{record.nftTransfer.nft.tokenId}</Text>
                                 </HStack>
                                 <Spacer />
                                 <HStack>
                                   <Tag fontSize='xs' colorScheme='gray'>
-                                    {nft.nftTransfer.from.slice(0, 5)}...
-                                    {nft.nftTransfer.from.slice(-4)}
+                                    {record.nftTransfer.from.slice(0, 5)}...
+                                    {record.nftTransfer.from.slice(-4)}
                                   </Tag>
                                   <ArrowForwardIcon color='gray.400' />
                                   <Tag fontSize='xs' colorScheme='gray'>
-                                    {nft.nftTransfer.to.slice(0, 5)}...
-                                    {nft.nftTransfer.to.slice(-4)}
+                                    {record.nftTransfer.to.slice(0, 5)}...
+                                    {record.nftTransfer.to.slice(-4)}
                                   </Tag>
                                 </HStack>
                               </VStack>
@@ -255,14 +263,14 @@ export default function Home() {
                       </Td>
                       <Td>
                         <Editable
-                          defaultValue={nft.comment || '--'}
+                          defaultValue={record.comment || '--'}
                           onSubmit={(value) =>
                             handleOnSubmitEditable(i, { comment: value })
                           }
                           textAlign={'center'}
                         >
-                          <EditablePreview width={300} />
-                          <EditableTextarea width={300} />
+                          <EditablePreview />
+                          <EditableTextarea />
                         </Editable>
                       </Td>
                     </Tr>

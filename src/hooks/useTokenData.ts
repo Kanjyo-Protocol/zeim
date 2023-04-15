@@ -28,7 +28,7 @@ export const useTokenData = (addresses?: string[]) => {
         console.log('wow', txn.transactionHash, txn.formattedAmount)
         return {
           txnDate: txn.blockTimestamp,
-          category: 'token transfer',
+          category: 'expense',
           purpose: 'payment',
           comment: undefined,
           nftTransfer: undefined,
