@@ -176,7 +176,7 @@ export default function Home() {
                       </Td>
                       <Td>
                         <Editable
-                          defaultValue={record.purpose}
+                          value={record.purpose}
                           onSubmit={(value) =>
                             handleOnSubmitEditable(i, { purpose: value })
                           }
